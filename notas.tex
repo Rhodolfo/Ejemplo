@@ -50,9 +50,116 @@ Podemos pedirle a git que guarde estos cambios,
 > git add README.md
 > git add notas.tex
 > git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   README.md
+	new file:   notas.tex
+
+Ahora tiene sentido sincronizar nuestros cambios con el remoto,
+
+git commit -m "Cambio en README.md, nuevo archivo notas.tex"
+[master 1626734] Cambio en README.md, nuevo archivo notas.tex
+ 2 files changed, 59 insertions(+)
+ create mode 100644 notas.tex
+
+Si estamos contentos,
+
+> git push origin master
+Counting objects: 4, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100\% (3/3), done.
+Writing objects: 100\% (4/4), 1.09 KiB | 0 bytes/s, done.
+Total 4 (delta 0), reused 0 (delta 0)
+To git@github.com:Rhodolfo/Ejemplo.git
+   67c1f32..1626734  master -> master
+
+> git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
 
 
 
+\section{Ramas, Colaboraci\'{o}n y Conflictos}
 
+Normalmente uno no cambia la el repositorio principal del proyecto,
+conviene crear una 'rama,' las ramas son copias de un repositorio. 
+
+$ git branch uno
+M       notas.tex
+Switched to branch 'uno'
+
+$ git add README.md
+$ git commit -m "Cambio en rama uno"
+[uno 6fbb706] Cambio en rama uno
+ 1 file changed, 2 insertions(+)
+
+$ git push origin uno
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 346 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To git@github.com:Rhodolfo/Ejemplo.git
+ * [new branch]      uno -> uno
+
+
+Digamos que existe una rama llamada 'dos',
+donde tamb'{e}n se ha cambiado el README.
+
+Podemos hacer un merge, el cu\'{a}l
+junta los cambios y pide al usuario que resuelva conflictos.
+Trabajando desde la rama dos:
+
+$ git merge uno
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+
+Tenemos un conflicto en el archivo README.md entre las ramas uno y dos.
+
+$ git status 
+On branch dos
+Your branch is up-to-date with 'origin/dos'.
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+        both modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Tenemos que entrar a editar README.md, 
+en este caso tendr\'{a} los cambios de las ramas uno y dos,
+escojeremos a mano como queremos que se quede el archivo.  
+Al estar contentos podemos hacer un git add, luego commit y un push como antes.
+
+$ git add README.md 
+$ git status
+On branch dos
+Your branch is up-to-date with 'origin/dos'.
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+	modified:   README.md
+
+$ git commit -m "Dos unido a Uno en rama Dos" 
+[dos 955b403] Dos unido a Uno en rama Dos
+rho@Sophie:~/Documents/GitHubBranches/Tres$ git push origin dos
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 347 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To git@github.com:Rhodolfo/Ejemplo.git
+   d809992..955b403  dos -> dos
+
+Y ya tenemos ambos cambios guardados en la rama dos.
 
 
