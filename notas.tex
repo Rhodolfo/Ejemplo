@@ -1,0 +1,58 @@
+\section{Initializando el repositorio}
+
+Vamos a inizializar el repositorio
+
+Ir a la p\'{a}gina de GitHub, crear un nuevo repositorio.
+Despu\'{e}s podemos inicializar una copia local. 
+
+> git init
+Initialized empty Git repository in /home/rho/Documents/GitHub/.git/
+>git remote add origin git@github.com:Rhodolfo/Ejemplo.git
+>git remote -v
+origin	git@github.com:Rhodolfo/Ejemplo.git (fetch)
+origin	git@github.com:Rhodolfo/Ejemplo.git (push)
+
+Este mensaje simplemente nos dice que el repositorio local se ha creado correctamente
+y que est\'{a} atado al repositorio remoto.
+
+Alternativamente, podemos clonar un repositorio,
+> git clone git@github.com:Rhodolfo/Ejemplo.git
+Cloning into 'Ejemplo'...
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Receiving objects: 100\% (3/3), done.
+Checking connectivity... done.
+
+\section{Guardando Cambios}
+
+En el repositorio empec\'{e} a escribir estas notas,
+al hacer un cambio puedo simplemente en que diferimos el local y el remoto.
+
+> git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	notas.tex
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Git nos dice que se ha cambiado README.md,
+tambi\'{e} indica que hemos creado un nuevo archivo notas.tex.
+Podemos pedirle a git que guarde estos cambios,
+
+> git add README.md
+> git add notas.tex
+> git status
+
+
+
+
+
+
