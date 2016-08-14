@@ -1,0 +1,101 @@
+********************
+*** INSTALLATION ***
+********************
+
+Install ssh server
+sudo apt-get install openssh-server 
+
+SSH config backup
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.factory-defaults
+sudo chmod a-w /etc/ssh/sshd_config.factory-defaults
+
+
+
+*********************
+*** CONFIGURATION ***
+*********************
+
+Edit the config file 
+sudo vim /etc/ssh/sshd_config
+
+Disable password auth for everyone 
+PasswordAuthentication no 
+
+Enable password auth for local connections, 
+this line should be at the bottom of the config file
+Match Address 192.168.0.0/16
+	PasswordAuthentication yes
+
+Restart server with either of these
+sudo restart ssh
+sudo systemctl restart ssh
+
+
+
+**************************
+*** SSH KEYS ON CLIENT ***
+**************************
+
+Go to ~/.ssh or create it, change permissions if necessary
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+
+Keygen, take note of passphrase
+ssh-keygen -t rsa
+
+Your public key will be at 
+~/.ssh/id_rsa.pub
+
+
+
+**************************
+*** SSH KEYS ON SERVER ***
+**************************
+
+Take the client's public key and copy it to 
+~/.ssh/authorized_keys or ~/.ssh/authorized_keys2 
+depending on keygen, rsa is version2.  
+
+You can also create these files
+touch authorized_keys
+chmod 600 authorized_keys
+touch authorized_keys2
+chmod 600 authorized_keys2
+
+And cat a public key to them that has been copied to the host,
+cat ../id_dsa.pub >> authorized_keys2
+
+
+
+******************
+*** NETWORKING ***
+******************
+
+Let's make sure ssh server is running,
+sudo service ssh status
+
+Let's make sure port 22 is being listened to,
+sudo netstat -anp | grep sshd
+
+Make sure there aren't firewalls in place,
+sudo iptables -L | grep ssh
+sudo ufw verbose
+
+Now let's also make sure there aren't 
+any additional firewalls in place,
+nmap -v <host ip>
+Port 22 should be shown as open.
+
+Once the local machine has been cleared
+and port 22 is not shown as open by nmap, 
+you need to check routers and crap, 
+add firewall rules to open port 22 to the machines you want.
+
+
+
+*******************
+*** EXTRA STUFF ***
+*******************
+
+To get your public IP
+curl -s checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'  
